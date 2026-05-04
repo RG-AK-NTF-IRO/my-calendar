@@ -14,10 +14,21 @@
             color: #1e293b;
         }
 
+        /* Общая сетка для заголовков и дней */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 8px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding-bottom: 8px;
         }
 
         .day-card {
@@ -66,44 +77,46 @@
 
         @media (max-width: 768px) {
             .calendar-grid { gap: 4px; }
-            .day-card { min-height: 80px; padding: 4px; }
-            .exam-tag { font-size: 0.6rem; }
+            .day-card { min-height: 70px; padding: 4px; }
+            .exam-tag { font-size: 0.55rem; padding: 1px 3px; }
+            .day-header { font-size: 0.65rem; }
+            .today-header { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
     <div class="max-w-6xl mx-auto">
         <header class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-slate-800 mb-2">Единый календарь экзаменов 2026</h1>
-            <p class="text-slate-500">График проведения ЕГЭ и ОГЭ</p>
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">Единый календарь экзаменов 2026</h1>
+            <p class="text-slate-500 text-sm md:text-base">График проведения ЕГЭ и ОГЭ</p>
         </header>
 
         <!-- Легенда -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 md:p-6 bg-white rounded-xl shadow-sm border border-slate-200">
             <div class="space-y-2">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">ЕГЭ (11 класс)</p>
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-4 rounded tag-ege block"></span>
-                    <span class="text-sm">Основной период</span>
+                    <span class="text-xs md:text-sm">Основной период</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-4 rounded tag-ege-reserve block"></span>
-                    <span class="text-sm">Резервные дни ЕГЭ</span>
+                    <span class="text-xs md:text-sm">Резервные дни ЕГЭ</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-4 rounded tag-retry block"></span>
-                    <span class="text-sm">Дни пересдачи (по выбору)</span>
+                    <span class="text-xs md:text-sm">Дни пересдачи (по выбору)</span>
                 </div>
             </div>
             <div class="space-y-2">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">ОГЭ (9 класс)</p>
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-4 rounded tag-oge block"></span>
-                    <span class="text-sm">Основной период</span>
+                    <span class="text-xs md:text-sm">Основной период</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-4 rounded tag-oge-reserve block"></span>
-                    <span class="text-sm">Резервные дни ОГЭ</span>
+                    <span class="text-xs md:text-sm">Резервные дни ОГЭ</span>
                 </div>
             </div>
         </div>
@@ -113,10 +126,9 @@
             <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-700">
                 <span class="bg-slate-800 text-white px-4 py-1 rounded-lg text-sm uppercase tracking-widest">Июнь 2026</span>
             </h2>
-            <div class="calendar-grid text-center mb-2 font-bold text-xs text-slate-400 uppercase tracking-wider">
-                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+            <div class="calendar-grid" id="june-grid">
+                <!-- Заголовки дней недели вставляются скриптом для точности -->
             </div>
-            <div class="calendar-grid" id="june-grid"></div>
         </div>
 
         <!-- Июль 2026 -->
@@ -124,22 +136,21 @@
             <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-700">
                 <span class="bg-slate-800 text-white px-4 py-1 rounded-lg text-sm uppercase tracking-widest">Июль 2026</span>
             </h2>
-            <div class="calendar-grid text-center mb-2 font-bold text-xs text-slate-400 uppercase tracking-wider">
-                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+            <div class="calendar-grid" id="july-grid">
+                <!-- Заголовки дней недели вставляются скриптом для точности -->
             </div>
-            <div class="calendar-grid" id="july-grid"></div>
         </div>
 
         <!-- Примечания -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-900">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-xs md:text-sm text-blue-900">
                 <p class="font-bold mb-1">Информация по ЕГЭ:</p>
                 <ul class="list-disc ml-5 space-y-1">
                     <li>Пересдача аннулирует предыдущий результат по предмету.</li>
                     <li>24-25 июня: резерв по всем предметам ЕГЭ.</li>
                 </ul>
             </div>
-            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg text-sm text-green-900">
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg text-xs md:text-sm text-green-900">
                 <p class="font-bold mb-1">Информация по ОГЭ:</p>
                 <ul class="list-disc ml-5 space-y-1">
                     <li>5, 16, 19 июня: все предметы (кроме Рус/Мат).</li>
@@ -150,6 +161,7 @@
     </div>
 
     <script>
+        const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
         const events = {
             // ИЮНЬ
             '2026-06-01': [{ type: 'ege', text: 'ЕГЭ: Ист, Лит, Хим' }],
@@ -189,14 +201,25 @@
 
         function renderMonth(gridId, month, year, startOffset) {
             const grid = document.getElementById(gridId);
+            
+            // 1. Вставляем заголовки дней недели в ту же сетку
+            weekdays.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'day-header';
+                dayEl.innerText = day;
+                grid.appendChild(dayEl);
+            });
+
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             
+            // 2. Отступы для начала месяца
             for (let i = 0; i < startOffset; i++) {
                 const div = document.createElement('div');
                 div.className = 'day-card other-month';
                 grid.appendChild(div);
             }
 
+            // 3. Сами дни
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const dayOfWeek = new Date(year, month, day).getDay();
@@ -218,8 +241,8 @@
             }
         }
 
-        renderMonth('june-grid', 5, 2026, 0); // Июнь Пн
-        renderMonth('july-grid', 6, 2026, 2); // Июль Ср
+        renderMonth('june-grid', 5, 2026, 0); // Июнь 2026 начинается в Пн
+        renderMonth('july-grid', 6, 2026, 2); // Июль 2026 начинается в Ср
     </script>
 </body>
 </html>
