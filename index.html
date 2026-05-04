@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание ЕГЭ и ОГЭ 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day-card {
+            min-height: 110px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .day-card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .today-header {
+            font-weight: 700;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .exam-tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            display: block;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+
+        /* ЕГЭ Стили */
+        .tag-ege { background-color: #2563eb; color: #ffffff; border-left: 3px solid #1d4ed8; }
+        .tag-ege-reserve { background-color: #dbeafe; color: #1e40af; border-left: 3px solid #3b82f6; }
+        
+        /* ОГЭ Стили */
+        .tag-oge { background-color: #16a34a; color: #ffffff; border-left: 3px solid #15803d; }
+        .tag-oge-reserve { background-color: #dcfce7; color: #166534; border-left: 3px solid #22c55e; }
+        
+        /* Пересдачи */
+        .tag-retry { background-color: #fef9c3; color: #854d0e; border-left: 3px solid #eab308; }
+
+        .weekend { background-color: #fff1f2; }
+        .other-month { opacity: 0.3; pointer-events: none; }
+
+        @media (max-width: 768px) {
+            .calendar-grid { gap: 4px; }
+            .day-card { min-height: 80px; padding: 4px; }
+            .exam-tag { font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Единый календарь экзаменов 2026</h1>
+            <p class="text-slate-500">График проведения ЕГЭ и ОГЭ</p>
+        </header>
+
+        <!-- Легенда -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-6 bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="space-y-2">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">ЕГЭ (11 класс)</p>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-4 rounded tag-ege block"></span>
+                    <span class="text-sm">Основной период</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-4 rounded tag-ege-reserve block"></span>
+                    <span class="text-sm">Резервные дни ЕГЭ</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-4 rounded tag-retry block"></span>
+                    <span class="text-sm">Дни пересдачи (по выбору)</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">ОГЭ (9 класс)</p>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-4 rounded tag-oge block"></span>
+                    <span class="text-sm">Основной период</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-4 rounded tag-oge-reserve block"></span>
+                    <span class="text-sm">Резервные дни ОГЭ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Июнь 2026 -->
+        <div class="mb-12">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-700">
+                <span class="bg-slate-800 text-white px-4 py-1 rounded-lg text-sm uppercase tracking-widest">Июнь 2026</span>
+            </h2>
+            <div class="calendar-grid text-center mb-2 font-bold text-xs text-slate-400 uppercase tracking-wider">
+                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+            </div>
+            <div class="calendar-grid" id="june-grid"></div>
+        </div>
+
+        <!-- Июль 2026 -->
+        <div class="mb-12">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-700">
+                <span class="bg-slate-800 text-white px-4 py-1 rounded-lg text-sm uppercase tracking-widest">Июль 2026</span>
+            </h2>
+            <div class="calendar-grid text-center mb-2 font-bold text-xs text-slate-400 uppercase tracking-wider">
+                <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+            </div>
+            <div class="calendar-grid" id="july-grid"></div>
+        </div>
+
+        <!-- Примечания -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-900">
+                <p class="font-bold mb-1">Информация по ЕГЭ:</p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Пересдача аннулирует предыдущий результат по предмету.</li>
+                    <li>24-25 июня: резерв по всем предметам ЕГЭ.</li>
+                </ul>
+            </div>
+            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg text-sm text-green-900">
+                <p class="font-bold mb-1">Информация по ОГЭ:</p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>5, 16, 19 июня: все предметы (кроме Рус/Мат).</li>
+                    <li>3, 6 июля: резерв по всем предметам (кроме Рус/Мат).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const events = {
+            // ИЮНЬ
+            '2026-06-01': [{ type: 'ege', text: 'ЕГЭ: Ист, Лит, Хим' }],
+            '2026-06-02': [{ type: 'oge', text: 'ОГЭ: Математика' }],
+            '2026-06-04': [{ type: 'ege', text: 'ЕГЭ: Русский язык' }],
+            '2026-06-05': [
+                { type: 'ege', text: 'ЕГЭ: Русский язык' },
+                { type: 'oge', text: 'ОГЭ: Предметы по выбору' }
+            ],
+            '2026-06-06': [{ type: 'oge', text: 'ОГЭ: Ин. яз, Инф' }],
+            '2026-06-08': [{ type: 'ege', text: 'ЕГЭ: Математика' }],
+            '2026-06-09': [
+                { type: 'ege', text: 'ЕГЭ: Математика' },
+                { type: 'oge', text: 'ОГЭ: Русский язык' }
+            ],
+            '2026-06-11': [{ type: 'ege', text: 'ЕГЭ: Общ, Физика' }],
+            '2026-06-15': [{ type: 'ege', text: 'ЕГЭ: Био, Гео, Ин. яз (П)' }],
+            '2026-06-16': [{ type: 'oge', text: 'ОГЭ: Предметы по выбору' }],
+            '2026-06-18': [{ type: 'ege', text: 'ЕГЭ: Ин. яз (У), Инф' }],
+            '2026-06-19': [
+                { type: 'ege', text: 'ЕГЭ: Ин. яз (У), Инф' },
+                { type: 'oge', text: 'ОГЭ: Предметы по выбору' }
+            ],
+            '2026-06-22': [{ type: 'ege-reserve', text: 'Резерв ЕГЭ: Ин. яз (П), Инф, Лит, Рус, Физ, Хим' }],
+            '2026-06-23': [{ type: 'ege-reserve', text: 'Резерв ЕГЭ: Био, Гео, Мат, Ин. яз (У), Ист, Общ' }],
+            '2026-06-24': [{ type: 'ege-reserve', text: 'Резерв ЕГЭ: Все предметы' }],
+            '2026-06-25': [{ type: 'ege-reserve', text: 'Резерв ЕГЭ: Все предметы' }],
+            '2026-06-29': [{ type: 'oge-reserve', text: 'Резерв ОГЭ: Математика' }],
+            
+            // ИЮЛЬ
+            '2026-07-02': [{ type: 'oge-reserve', text: 'Резерв ОГЭ: Русский язык' }],
+            '2026-07-03': [{ type: 'oge-reserve', text: 'Резерв ОГЭ: Предметы по выбору' }],
+            '2026-07-06': [{ type: 'oge-reserve', text: 'Резерв ОГЭ: Предметы по выбору' }],
+            '2026-07-08': [{ type: 'retry', text: 'Пересдача ЕГЭ: Ин. яз (П), Инф, Лит, Рус, Физ, Хим' }],
+            '2026-07-09': [{ type: 'retry', text: 'Пересдача ЕГЭ: Био, Гео, Мат, Ин. яз (У), Ист, Общ' }]
+        };
+
+        function renderMonth(gridId, month, year, startOffset) {
+            const grid = document.getElementById(gridId);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            for (let i = 0; i < startOffset; i++) {
+                const div = document.createElement('div');
+                div.className = 'day-card other-month';
+                grid.appendChild(div);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayOfWeek = new Date(year, month, day).getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                
+                const div = document.createElement('div');
+                div.className = `day-card ${isWeekend ? 'weekend' : ''}`;
+                
+                let html = `<div class="today-header">${day}</div>`;
+                
+                if (events[dateStr]) {
+                    events[dateStr].forEach(ev => {
+                        html += `<span class="exam-tag tag-${ev.type}">${ev.text}</span>`;
+                    });
+                }
+                
+                div.innerHTML = html;
+                grid.appendChild(div);
+            }
+        }
+
+        renderMonth('june-grid', 5, 2026, 0); // Июнь Пн
+        renderMonth('july-grid', 6, 2026, 2); // Июль Ср
+    </script>
+</body>
+</html>
